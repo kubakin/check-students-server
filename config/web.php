@@ -56,8 +56,9 @@ $config = [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'Predmet'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'Lesson'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'Data'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'Visit'],
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
-                
+                'GET web' => 'group/index',
                 //'<predmet:\w+>/<id:\w+>' => '<predmet>/action',
 
                // '<predmet:\w+>/<id:\w+>' => '<predmet>/view',
@@ -90,3 +91,4 @@ if (YII_ENV_DEV) {
 }
 
 return $config;
+

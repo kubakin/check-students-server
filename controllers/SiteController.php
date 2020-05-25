@@ -20,9 +20,32 @@ class SiteController extends Controller
     /**
      * {@inheritdoc}
      */
+    public $enableCsrfValidation = false;
+    public function beforeAction($action)
+    {
+        if (in_array($action->id, ['incoming'])) {
+            $this->enableCsrfValidation = false;
+        }
+        return parent::beforeAction($action);
+    }
     public function behaviors()
     {
         return [
+            'corsFilter' => [
+                'class' => \yii\filters\Cors::className(),
+                'cors' => [],
+                'actions' => [
+                    'incoming' => [
+                        'Origin' => ['*'],
+                        'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
+                        'Access-Control-Request-Headers' => ['*'],
+                        'Access-Control-Allow-Headers' => ['Content-Type'],
+                        'Access-Control-Allow-Credentials' => null,
+                        'Access-Control-Max-Age' => 86400,
+                        'Access-Control-Expose-Headers' => ['*'],
+                    ],
+                ],
+            ],
             'access' => [
                 'class' => AccessControl::className(),
                 'only' => ['logout'],
@@ -84,12 +107,12 @@ class SiteController extends Controller
         
         return $this->render('setpos',['model'=>Yii::getAlias('@web')]);
     }
-   
+    
     public function actionCreate() {
         //  die('test');
          // $model2 = new GroupsInLesson();
           $model = new Lesson();
-          
+         // return 'hello';
           $post = Yii::$app->request->post();
           if(!Predmet::findOne($post['predmet'])) {
             $pred = new Predmet();
@@ -136,23 +159,40 @@ class SiteController extends Controller
      *
      * @return Response|string
      */
+
     public function actionLogin()
     {
+        return 'hi';
+        $post = Yii::$app->request->post();
+       $data = array_keys($post)[0];
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-
+       // return $data;
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+        if (Yii::$app->request->post()) {
+            $data = json_decode($data);
+            $model->password = $data->password;
+            //return 'good';
+            $model->username = $data->username;
+            
+            
+           // return var_dump($model);
+        
+        if ($model->login()) {
+            //return 'good';
+            return Yii::$app->user->identity->name;
+            //return $this->goBack();
         }
-
+    }
         $model->password = '';
         return $this->render('login', [
             'model' => $model,
         ]);
     }
-
+    public function actionTekuser() {
+        return var_dump(Yii::$app->user);
+    }
     /**
      * Logout action.
      *

@@ -61,4 +61,8 @@ class Lesson extends \yii\db\ActiveRecord
     {
         return ['data','predmet','visit'];
     }
+    public function extraFields()
+    {
+        return ['id'];
+    }
 }
