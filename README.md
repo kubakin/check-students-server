@@ -1,5 +1,6 @@
 <h1>UchetPos</h1>
 <p>Wiki: https://se.cs.petrsu.ru/wiki/UchetPos</p>
+<a href='http://kappa.cs.petrsu.ru/~pogudin/UchetPos/UchetPosSite/#/'>Попробовать сейчас(войти без авторизации)</a>
 <p>Сервер для приложения по учету посещаемости студентов</p>
 <p>Технологии на сервере: Yii2, MySQL</p>
 <hr>
